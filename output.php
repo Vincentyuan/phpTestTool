@@ -5,120 +5,136 @@ class phpOutput{
 	private $objectName;
 	private $message;
 	private $objectToHandle;
-	private $filehande;
+	private $filehandle;
 	private $fileName;
 	private $filePath;
 
 	private $nextline="\n";
 
-	private $level; //control the tab number to show beautiful
+	private $level=0; //control the tab number to show beautiful
 
 
 	//to initial the $filename /$filepass(default current dictionary ) and so on  !!! $filehandle ,
-	function __construct($objectName,$message,$objectToHandle,$fileName="test.txt",$filePath="./"){
+	function __construct($objectToHandle1,$objectName1,$message1,$fileName='test.txt',$filePath="./"){
 
-		this->objectName=$objectName;
-		this->message=$message;
-		this->objectToHandle=$objectToHandle;
-
-
-		this->fileName=$fileName;
-		this->filePath=$filePath;
-
-		this->filehandle=fopen(this->filePath+this->fileName,"w");
+		$this->objectName = $objectName1;
+		$this->message=$message1;
+		$this->objectToHandle=$objectToHandle1;
 
 
-		outputHead();
-		this->level=0;
+		$this->fileName=$fileName;
+		$this->filePath=$filePath;
+
+		if ($this->filePath == "./") {
+			$this->filehandle=fopen($this->fileName,"w");
+		}else {
+			$path="./"+$this->filePath+$this->fileName;
+			$this->filehandle=fopen($path,"w");
+		}
+
+
+		echo $this->filePath." ".$this->fileName;
+		ftruncate($this->filehandle, 0);
+
+		$this->outputHead();
+		$this->level=0;
 	}
 
 	function outputHead(){
-		fwrite(this->filehande,this->getLevelTab()+"this is the information of this->objectName, the test is for  this->message");
+		fwrite($this->filehandle,$this->getLevelTab()."this is the information of $this->objectName( the test is for  $this->message )  \n");
 	}
 
 	//out put the array by example.
 	function outputArray($typecallArray){
-		this->level++;
-		fwrite(this->filehande,this->getLevelTab()+"this is one array \n");
-		foreach($typecallArray as $key=>$value)
-		{
-		　//　echo $key."=>".$value;
-			fwrite(this->filehande,"$key :");
+		fwrite($this->filehandle,$this->getLevelTab()."this is one array \n");
+		$this->level++;
+
+	//	foreach($typecallArray as $key => $value){
+		foreach($typecallArray as $key => $value) {
+			fwrite($this->filehandle,$this->getLevelTab()."$key :");
 			if(gettype($value) == "object"){
-				this->level++;
-				this->outputUnknowType($value);
+			//	$this->level++;
+				$this->outputUnknowType($value);
 			}elseif (gettype($value) == "array") {
-					this->level++;
-				this->outputArray($value);
+			//		$this->level++;
+				$this->outputArray($value);
 			}else {
-				this->outputGeneral($value);
+				$this->outputGeneral($value);
 			}
 		}
 
-		this->level--;
+
+
+		$this->level--;
+		fwrite($this->filehandle,$this->getLevelTab()."the array is end \n");
 
 	}
 
+
 	//out put the complex variable such as nest object
 	function outputUnknowType($unknowObject){
-		this->level++;
 
-		fwrite(this->filehande,this->getLevelTab()+"the object start\n");
 
+		fwrite($this->filehandle,$this->getLevelTab()."the object start\n");
+		$this->level++;
 		if(gettype($unknowObject) =="object"){
 			//use loop to check every attribute in the class
 			foreach($unknowObject as $key => $value) {
 
-					fwrite(this->filehande, this->getLevelTab()+ " $key :");
+					fwrite($this->filehandle, $this->getLevelTab()." $key :");
 
 					if(gettype($value) == "object"){ //if there exist another object as an atrribute
-						this->outputUnknowType($value);
+						$this->outputUnknowType($value);
 					}elseif (gettype($value) == "array") { //the atrribute is array.
-						this->outputArray($value);
+						$this->outputArray($value);
 					}else {                           //the atrribute is a gneral variable
-						this->outputGeneral($value);
+						$this->outputGeneral($value);
 					}
 
 			}
 
 		}
 
-		this->level--;
-		fwrite(this->filehande,this->getLevelTab()+"the object end\n");
+		$this->level--;
+		fwrite($this->filehandle,$this->getLevelTab()."the object end\n");
 
 	}
 
 	//out put the general variable with string boolean and others.
 	//will out put the type of the variable;
 	function outputGeneral($generalVariable){
-		fwrite(this->filehandle,this->getLevelTab()+$generalVariable+"\n");
+		fwrite($this->filehandle,$this->getLevelTab().$generalVariable."\n");
+		echo $generalVariable;
 	}
 
 	//out put controller to determine the which method will be called.
 	function output(){
 
-		if (gettype(this->object) == "Null") {
-			fwrite(this->filehandle, this->getLevelTab()+ "the this->object is null \n");
-		}elseif(gettype(this->object) == "object"){
-			this->outputUnknowType(this->object);
-		}elseif (gettype(this0>object) == "array") {
-			this->outputArray(this->object);
+		if (gettype($this->objectToHandle) == "Null") {
+			fwrite($this->filehandle, $this->getLevelTab()."the $this->objectToHandle is null \n");
+		}elseif(gettype($this->objectToHandle) == "object"){
+			$this->outputUnknowType($this->objectToHandle);
+		}elseif (gettype($this->objectToHandle) == "array") {
+			$this->outputArray($this->objectToHandle);
 		}else {
-			this->outputGeneral(this->object);
+			$this->outputGeneral($this->objectToHandle);
 		}
 
+		$this->closeFile();
 	}
 
 	//close the file
 	function closeFile(){
-		fwrite(this->filehandle,this->getLevelTab()+"this is end of object this->objectName \n");
+		fwrite($this->filehandle,"this is end of object $this->objectName \n");
 	}
 
 	function getLevelTab(){
+
 		$tab="";
-		for ($i=0; $i <this->level ; $i++) {
-			# code...
-			$tab+="\t";
+		for ($i=0; $i <$this->level ; $i++) {
+
+			$tab=$tab."\t";
+
 		}
 		return $tab;
 	}
