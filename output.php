@@ -40,6 +40,7 @@ class phpOutput{
 		$this->level=0;
 	}
 
+	funciton __construct(){}
 	function outputHead(){
 		fwrite($this->filehandle,$this->getLevelTab()."this is the information of $this->objectName( the test is for  $this->message )  \n");
 	}
@@ -141,6 +142,30 @@ class phpOutput{
 
 		}
 		return $tab;
+	}
+	
+	function setObject($objectToHandle1,$objectName1,$message1,$fileName='test.txt',$filePath="./"){
+		$this->objectName = $objectName1;
+		$this->message=$message1;
+		$this->objectToHandle=$objectToHandle1;
+
+
+		$this->fileName=$fileName;
+		$this->filePath=$filePath;
+
+		if ($this->filePath == "./") {
+			$this->filehandle=fopen($this->fileName,"w");
+		}else {
+			$path=$this->filePath.$this->fileName;
+			$this->filehandle=fopen($path,"w");
+		}
+
+
+		echo $this->filePath." ".$this->fileName;
+		ftruncate($this->filehandle, 0);
+
+		$this->outputHead();
+		$this->level=0;
 	}
 
 }
