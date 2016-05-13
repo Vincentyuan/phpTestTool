@@ -28,7 +28,7 @@ class phpOutput{
 		if ($this->filePath == "./") {
 			$this->filehandle=fopen($this->fileName,"w");
 		}else {
-			$path="./"+$this->filePath+$this->fileName;
+			$path=$this->filePath.$this->fileName;
 			$this->filehandle=fopen($path,"w");
 		}
 
@@ -43,6 +43,24 @@ class phpOutput{
 	function outputHead(){
 		fwrite($this->filehandle,$this->getLevelTab()."this is the information of $this->objectName( the test is for  $this->message )  \n");
 	}
+	
+	//out put controller to determine the which method will be called.
+	function output(){
+
+		if (gettype($this->objectToHandle) == "Null") {
+			fwrite($this->filehandle, $this->getLevelTab()."the $this->objectToHandle is null \n");
+		}elseif(gettype($this->objectToHandle) == "object"){
+			$this->outputUnknowType($this->objectToHandle);
+		}elseif (gettype($this->objectToHandle) == "array") {
+			$this->outputArray($this->objectToHandle);
+		}else {
+			$this->outputGeneral($this->objectToHandle);
+		}
+
+		$this->closeFile();
+	}
+	
+	
 
 	//out put the array by example.
 	function outputArray($typecallArray){
@@ -107,21 +125,7 @@ class phpOutput{
 		echo $generalVariable;
 	}
 
-	//out put controller to determine the which method will be called.
-	function output(){
 
-		if (gettype($this->objectToHandle) == "Null") {
-			fwrite($this->filehandle, $this->getLevelTab()."the $this->objectToHandle is null \n");
-		}elseif(gettype($this->objectToHandle) == "object"){
-			$this->outputUnknowType($this->objectToHandle);
-		}elseif (gettype($this->objectToHandle) == "array") {
-			$this->outputArray($this->objectToHandle);
-		}else {
-			$this->outputGeneral($this->objectToHandle);
-		}
-
-		$this->closeFile();
-	}
 
 	//close the file
 	function closeFile(){
