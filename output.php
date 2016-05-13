@@ -40,7 +40,7 @@ class phpOutput{
 		$this->level=0;
 	}
 
-	funciton __construct(){}
+	
 	function outputHead(){
 		fwrite($this->filehandle,$this->getLevelTab()."this is the information of $this->objectName( the test is for  $this->message )  \n");
 	}
