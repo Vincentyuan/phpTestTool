@@ -122,7 +122,7 @@ class phpOutput{
 	//out put the general variable with string boolean and others.
 	//will out put the type of the variable;
 	function outputGeneral($generalVariable){
-		fwrite($this->filehandle,$this->getLevelTab().$generalVariable."\n");
+		fwrite($this->filehandle,$this->getLevelTab().$generalVariable." the type of the value is :".gettype($generalVariable)."\n");
 		echo $generalVariable;
 	}
 
