@@ -33,7 +33,7 @@ class phpOutput{
 		}
 
 
-		echo $this->filePath." ".$this->fileName;
+		//echo $this->filePath." ".$this->fileName;
 		ftruncate($this->filehandle, 0);
 
 		$this->outputHead();
@@ -123,7 +123,7 @@ class phpOutput{
 	//will out put the type of the variable;
 	function outputGeneral($generalVariable){
 		fwrite($this->filehandle,$this->getLevelTab().$generalVariable." the type of the value is :".gettype($generalVariable)."\n");
-		echo $generalVariable;
+	//	echo $generalVariable;
 	}
 
 
@@ -161,7 +161,7 @@ class phpOutput{
 		}
 
 
-		echo $this->filePath." ".$this->fileName;
+		//echo $this->filePath." ".$this->fileName;
 		ftruncate($this->filehandle, 0);
 
 		$this->outputHead();
