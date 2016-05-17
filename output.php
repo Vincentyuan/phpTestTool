@@ -151,6 +151,10 @@ class phpOutput{
 		$this->outputHead();
 		$this->level=0;
 	}
+	function writeStringMessage($message ){
+		
+		fwrite($this->filehandle," \n\n $message \n\n");
+	}
 
 }
 
