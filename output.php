@@ -15,12 +15,9 @@ class phpOutput{
 
 
 	//to initial the $filename /$filepass(default current dictionary ) and so on  !!! $filehandle ,
-	function __construct($objectToHandle1,$objectName1,$message1,$fileName='test.txt',$filePath="./"){
+	function __construct($fileName='test.txt',$filePath="./"){
 
-		$this->objectName = $objectName1;
-		$this->message=$message1;
-		$this->objectToHandle=$objectToHandle1;
-
+	
 
 		$this->fileName=$fileName;
 		$this->filePath=$filePath;
@@ -144,25 +141,12 @@ class phpOutput{
 		return $tab;
 	}
 	
-	function setObject($objectToHandle1,$objectName1,$message1,$fileName='test.txt',$filePath="./"){
+	function setObject($objectToHandle1,$objectName1,$message1){
+		
+		$this->objectToHandle=$objectToHandle1;
 		$this->objectName = $objectName1;
 		$this->message=$message1;
-		$this->objectToHandle=$objectToHandle1;
-
-
-		$this->fileName=$fileName;
-		$this->filePath=$filePath;
-
-		if ($this->filePath == "./") {
-			$this->filehandle=fopen($this->fileName,"w");
-		}else {
-			$path=$this->filePath.$this->fileName;
-			$this->filehandle=fopen($path,"w");
-		}
-
-
-		//echo $this->filePath." ".$this->fileName;
-		ftruncate($this->filehandle, 0);
+		
 
 		$this->outputHead();
 		$this->level=0;
