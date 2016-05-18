@@ -17,8 +17,6 @@ class phpOutput{
 	//to initial the $filename /$filepass(default current dictionary ) and so on  !!! $filehandle ,
 	function __construct($fileName='test.txt',$filePath="./"){
 
-	
-
 		$this->fileName=$fileName;
 		$this->filePath=$filePath;
 
@@ -32,6 +30,16 @@ class phpOutput{
 
 		//echo $this->filePath." ".$this->fileName;
 		ftruncate($this->filehandle, 0);
+
+		
+	}
+	
+	function setObject($objectToHandle1,$objectName1,$message1){
+		
+		$this->objectToHandle=$objectToHandle1;
+		$this->objectName = "\$".$objectName1;
+		$this->message=$message1;
+		
 
 		$this->outputHead();
 		$this->level=0;
@@ -119,7 +127,7 @@ class phpOutput{
 	//out put the general variable with string boolean and others.
 	//will out put the type of the variable;
 	function outputGeneral($generalVariable){
-		fwrite($this->filehandle,$this->getLevelTab().$generalVariable." the type of the value is :".gettype($generalVariable)."\n");
+		fwrite($this->filehandle,$this->getLevelTab().$generalVariable."======>the type of the value is :".gettype($generalVariable)."\n");
 	//	echo $generalVariable;
 	}
 
@@ -141,16 +149,7 @@ class phpOutput{
 		return $tab;
 	}
 	
-	function setObject($objectToHandle1,$objectName1,$message1){
-		
-		$this->objectToHandle=$objectToHandle1;
-		$this->objectName = $objectName1;
-		$this->message=$message1;
-		
-
-		$this->outputHead();
-		$this->level=0;
-	}
+	
 	function writeStringMessage($message ){
 		
 		fwrite($this->filehandle," \n\n $message \n\n");
