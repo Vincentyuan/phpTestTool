@@ -1,5 +1,5 @@
-this is the information of data( the test is for  test for data )  
-this is one array 
-	key :	name
+this is the information of $array( the test is for  test array )  
+this is one array.length is 1. 
+	name  :	png      ======>the type of the value is :string
 the array is end 
-this is end of object data 
+this is end of object $array 
