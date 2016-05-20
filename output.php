@@ -28,11 +28,18 @@ class phpOutput{
 		}
 
 
-		//echo $this->filePath." ".$this->fileName;
-		ftruncate($this->filehandle, 0);
+		
+		//ftruncate($this->filehandle, 0);
 
 		
 	}
+	
+	function printData($objectToHandle1,$objectName1,$message1){
+		$this->setObject($objectToHandle1,$objectName1,$message1);
+		$this->output();
+	}
+	
+
 	
 	function setObject($objectToHandle1,$objectName1,$message1){
 		
@@ -43,6 +50,7 @@ class phpOutput{
 
 		$this->outputHead();
 		$this->level=0;
+		
 	}
 
 	
@@ -70,7 +78,7 @@ class phpOutput{
 
 	//out put the array by example.
 	function outputArray($typecallArray){
-		fwrite($this->filehandle,$this->getLevelTab()."this is one array \n");
+		fwrite($this->filehandle,$this->getLevelTab()."this is one array.length is ".count($typecallArray).". \n");
 		$this->level++;
 
 	//	foreach($typecallArray as $key => $value){
@@ -153,6 +161,22 @@ class phpOutput{
 	function writeStringMessage($message ){
 		
 		fwrite($this->filehandle," \n\n $message \n\n");
+	}
+	
+	static function out($objectToHandle1,$objectName1,$message1){
+		
+		$fileName='test.txt';
+		$filePath="./"
+		$this->fileName=$fileName;
+		$this->filePath=$filePath;
+
+		if ($this->filePath == "./") {
+			$this->filehandle=fopen($this->fileName,"w");
+		}else {
+			$path=$this->filePath.$this->fileName;
+			$this->filehandle=fopen($path,"w");
+		}
+			
 	}
 
 }
